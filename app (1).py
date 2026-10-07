@@ -730,19 +730,17 @@ else:
 
     filas_html = ""
     for idx, r in df_final.iterrows():
-        tipo_color = "#7C2D12" if r["Tipo"] == "Pallet completo" else "#1E40AF"
+        tipo = "PA" if r["Tipo"] == "Pallet completo" else "CJ"
+        tipo_color = "#7C2D12" if tipo == "PA" else "#1E40AF"
         filas_html += f"""
         <tr>
             <td style="text-align:center;">{idx + 1}</td>
             <td style="font-weight:bold;font-family:monospace;font-size:14px;">{r['SKU']}</td>
             <td>{r['Descripción']}</td>
             <td style="text-align:center;font-weight:bold;color:#1E3A8A;font-size:15px;">{r['Origen']}</td>
-            <td style="text-align:center;font-family:monospace;font-size:11px;">{r['LPN']}</td>
-            <td style="text-align:center;font-weight:bold;">{r['Vencimiento']}</td>
             <td style="text-align:center;font-weight:bold;color:#065F46;font-size:15px;">{r['Destino']}</td>
-            <td style="text-align:center;font-weight:bold;color:{tipo_color};">{r['Tipo']}</td>
+            <td style="text-align:center;font-weight:bold;font-size:15px;color:{tipo_color};">{tipo}</td>
             <td style="text-align:center;font-weight:bold;font-size:16px;">{r['Cajas a mover']}</td>
-            <td style="width:70px;"></td>
         </tr>"""
 
     html_report = f"""
@@ -778,13 +776,13 @@ else:
             <tr><td colspan="2" style="font-size:13px;color:#475569;">
                 <strong>Movimientos:</strong> {len(df_final)} &nbsp;|&nbsp;
                 <strong>Pallets completos:</strong> {n_pallet} &nbsp;|&nbsp;
-                Bajar exactamente el LPN indicado (vence primero).
+                PA = pallet completo &nbsp; CJ = cajas
             </td></tr>
         </table>
         <table class="data-table">
             <thead><tr>
-                <th>#</th><th>SKU</th><th>Descripción</th><th>Origen</th><th>LPN</th><th>Vence</th>
-                <th>Destino</th><th>Tipo</th><th>Cajas</th><th>Check (✓)</th>
+                <th>#</th><th>SKU</th><th>Descripción</th><th>Origen</th>
+                <th>Destino</th><th>Tipo</th><th>Cajas</th>
             </tr></thead>
             <tbody>{filas_html}</tbody>
         </table>
